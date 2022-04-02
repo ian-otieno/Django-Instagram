@@ -5,6 +5,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 from .models import Images, Profile, Comment
+from .forms import EditProfileForm, ImageForm, CommentForm, ProfileUpdateForm
 from django.views import generic
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.decorators import login_required
@@ -36,6 +37,29 @@ def like_image(request, image_id):
     image.save()
     return HttpResponseRedirect(reverse('image_detail', args=[str(image_id)]))
 
+@login_required(login_url='/accounts/login/')
+def new_image(request):
+    current_user =request.user
+    if request.method == 'POST':
+        form = ImageForm(request.POST,request.FILES)
+        if form.is_valid():
+            image = form.save(commit = False)
+            image.profile = current_user
+            image.save()
+            return redirect("index")
+
+    else:
+        form = ImageForm()
+    return render (request, 'new_image.html', {"form":form})
+
+@login_required(login_url='/accounts/login/')
+def delete_image(request, image_id):
+    item = Images.objects.get(id =image_id)
+    if request.method =='POST':
+        item.delete()
+        return redirect('/')
+    return render(request, 'instagram/delete.html', {"item":item})
+   
 
 
 
