@@ -56,11 +56,33 @@ def new_image(request):
 def delete_image(request, image_id):
     item = Images.objects.get(id =image_id)
     if request.method =='POST':
-        item.delete()
+        item.delete() 
         return redirect('/')
     return render(request, 'instagram/delete.html', {"item":item})
    
 
+@login_required(login_url='/accounts/login/')
+def update_image(request, image_id):
+    image = Images.objects.get(id=image_id)
+    update_form = ImageForm(instance=image)
+    context = {"update_form": update_form}
+    if request.method =="POST":
+        update_form = ImageForm(request.POST, instance = image)
+        if update_form.is_valid():
+            update_form.save()
+            return redirect("/")
 
+    return render (request, 'instagram/update_image.html', context)
+ 
+@login_required(login_url='/accounts/login/')
+def search(request):
+  if 'user' in request.GET and request.GET['user']:
+    search_term = request.GET.get('user')
+    searched_users = Profile.search_profile(search_term)
+    return render(request, 'instagram/search.html', {'users':searched_users})
+
+  else: 
+    return render(request, 'instagram/search.html')
+    
 
 
