@@ -56,3 +56,19 @@ class Images(models.Model):
     def update_caption(cls, id, value):
         image = cls.objects.filter(id=id).update(image_caption=value)
         return image
+    
+class Comment(models.Model):
+    name = models.CharField(max_length=60, default='')
+    comments = models.TextField()
+    commented_at = models.DateTimeField(auto_now_add=True)
+    images = models.ForeignKey(Images, related_name = 'comments',on_delete=CASCADE)
+
+    def __str__(self):
+        return '%s - %s' %(self.images.image_name, self.name)
+
+    def save_comment(self):
+        self.save()
+
+    def delete_commnet(self):
+        self.delete()
+
