@@ -1,3 +1,29 @@
 from django.test import TestCase
+from .models import Profile, Images, Comment
 
 # Create your tests here.
+class TestProfile(TestCase):
+    def setUp(self):
+        self.bio =Profile(bio = "I like instagram")
+
+    def test_instance(self):
+        self.assertTrue(isinstance(self.bio, Profile))
+
+    def test_save_method(self):
+        self.bio.save_profile()
+        profile = Profile.objects.all()
+        self.assertTrue(len(profile)>0)
+
+    def test_dalete_profile(self):
+        self.bio.save_profile()
+        profile = Profile.objects.all()
+        self.bio.delete_profile()
+        self.assertTrue(len(profile)==0)
+
+    def test_update_profile(self):
+        self.bio.save_profile()
+        profile = Profile.objects.filter(self.bio)
+        self.bio.update_profile()
+        self.bio.save_profile()
+        self.assertTrue(len(profile)==1)
+
