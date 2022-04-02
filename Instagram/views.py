@@ -108,6 +108,7 @@ def add_comment(request, image_id):
     
     return render(request, 'instagram/add_comment.html',{"comment_form":comment_form, "image":image})
 @login_required(login_url='/accounts/login/')
+
 def profile(request):
     if request.method == 'POST':
         user_form=EditProfileForm(request.POST, instance =request.user)
