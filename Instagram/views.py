@@ -29,4 +29,14 @@ def image_detail(request, image_id):
 
     return render(request,"instagram/image.html", {"image":image, "image_likes":image_likes})
 
+@login_required(login_url='/accounts/login/')
+def like_image(request, image_id):
+    image = Images.objects.get(id =image_id)
+    image.like.add(request.user.profile)
+    image.save()
+    return HttpResponseRedirect(reverse('image_detail', args=[str(image_id)]))
+
+
+
+
 
