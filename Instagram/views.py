@@ -107,6 +107,23 @@ def add_comment(request, image_id):
         comment_form = CommentForm()
     
     return render(request, 'instagram/add_comment.html',{"comment_form":comment_form, "image":image})
+@login_required(login_url='/accounts/login/')
+def profile(request):
+    if request.method == 'POST':
+        user_form=EditProfileForm(request.POST, instance =request.user)
+        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, f'Your profile was updated successfuly')
+            return redirect('profile')
+    else:
+        user_form=EditProfileForm(instance =request.user)
+        profile_form = ProfileUpdateForm(instance=request.user.profile)
+
+        context = {"user_form":user_form, "profile_form":profile_form}
+        return render(request, 'django_registration/user_profile.html', context)
+
     
 
 
