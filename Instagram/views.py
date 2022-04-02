@@ -19,4 +19,14 @@ def index(request):
     comments = Comment.objects.all()
     
     return render(request, 'instagram/index.html', {"name":name, "images":images, "comments":comments})
+def image_detail(request, image_id):
+    try:
+        image = Images.objects.get(id = image_id)
+        image_likes = image.like.count()
+        
+    except Images.DoesNotExist:
+        raise Http404()
+
+    return render(request,"instagram/image.html", {"image":image, "image_likes":image_likes})
+
 
