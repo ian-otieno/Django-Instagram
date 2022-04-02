@@ -83,6 +83,30 @@ def search(request):
 
   else: 
     return render(request, 'instagram/search.html')
+class UserEditView(generic.UpdateView):
+    form_class = EditProfileForm
+    template_name='django_registration/edit_profile.html'
+    success_url =reverse_lazy('index')
+
+    def get_object(self):
+        return self.request.user
+
+@login_required(login_url='/accounts/login/')
+def add_comment(request, image_id):
+    image = get_object_or_404(Images, id=image_id)
+
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST, request.FILES, instance=image)
+        if comment_form.is_valid():
+            comments = comment_form.save(commit=False)
+            comments.image = image
+            comments.user = request.user
+            
+            return redirect('index')
+    else:
+        comment_form = CommentForm()
+    
+    return render(request, 'instagram/add_comment.html',{"comment_form":comment_form, "image":image})
     
 
 
