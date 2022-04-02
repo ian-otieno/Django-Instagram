@@ -32,3 +32,27 @@ class Profile(models.Model):
     def search_profile(cls, name):
         return cls.objects.filter(user__username__icontains=name).all()
 
+class Images(models.Model):
+    image = ImageField(upload_to = "images/")
+    image_name = CharField(max_length=30) 
+    image_caption = TextField()
+    profile = models.ForeignKey(User, on_delete=models.CASCADE)
+    like = models.ManyToManyField(User, related_name='like')
+
+    def __str__(self):
+        return self.image_name
+
+    def save_image(self):
+        self.save()
+
+    def delete_image(self):
+        self.delete()
+        
+
+    def total_likes(self):
+        return self.like.count()  
+
+    @classmethod
+    def update_caption(cls, id, value):
+        image = cls.objects.filter(id=id).update(image_caption=value)
+        return image
