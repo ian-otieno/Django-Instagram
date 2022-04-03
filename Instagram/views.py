@@ -10,7 +10,6 @@ from django.views import generic
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserChangeForm
-
 # Create your views here.
 
 @login_required(login_url='/accounts/login/')
@@ -20,6 +19,7 @@ def index(request):
     comments = Comment.objects.all()
     
     return render(request, 'instagram/index.html', {"name":name, "images":images, "comments":comments})
+
 def image_detail(request, image_id):
     try:
         image = Images.objects.get(id = image_id)
@@ -30,12 +30,14 @@ def image_detail(request, image_id):
 
     return render(request,"instagram/image.html", {"image":image, "image_likes":image_likes})
 
+
 @login_required(login_url='/accounts/login/')
 def like_image(request, image_id):
     image = Images.objects.get(id =image_id)
     image.like.add(request.user.profile)
     image.save()
     return HttpResponseRedirect(reverse('image_detail', args=[str(image_id)]))
+
 
 @login_required(login_url='/accounts/login/')
 def new_image(request):
@@ -56,11 +58,10 @@ def new_image(request):
 def delete_image(request, image_id):
     item = Images.objects.get(id =image_id)
     if request.method =='POST':
-        item.delete() 
+        item.delete()
         return redirect('/')
     return render(request, 'instagram/delete.html', {"item":item})
    
-
 @login_required(login_url='/accounts/login/')
 def update_image(request, image_id):
     image = Images.objects.get(id=image_id)
@@ -83,6 +84,8 @@ def search(request):
 
   else: 
     return render(request, 'instagram/search.html')
+    
+
 class UserEditView(generic.UpdateView):
     form_class = EditProfileForm
     template_name='django_registration/edit_profile.html'
@@ -107,8 +110,8 @@ def add_comment(request, image_id):
         comment_form = CommentForm()
     
     return render(request, 'instagram/add_comment.html',{"comment_form":comment_form, "image":image})
-@login_required(login_url='/accounts/login/')
 
+@login_required(login_url='/accounts/login/')
 def profile(request):
     if request.method == 'POST':
         user_form=EditProfileForm(request.POST, instance =request.user)
@@ -116,7 +119,6 @@ def profile(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            messages.success(request, f'Your profile was updated successfuly')
             return redirect('profile')
     else:
         user_form=EditProfileForm(instance =request.user)
@@ -124,7 +126,3 @@ def profile(request):
 
         context = {"user_form":user_form, "profile_form":profile_form}
         return render(request, 'django_registration/user_profile.html', context)
-
-    
-
-
