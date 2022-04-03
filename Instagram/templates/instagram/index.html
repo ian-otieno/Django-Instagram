@@ -2,7 +2,7 @@
 {% load bootstrap4 %}
 
 {% load static %}
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+<link rel="stylesheet" href="<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">"
     integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -10,10 +10,10 @@
 
 {% block content %}
 
-<div class="container" style="background-color: antiquewhite; padding-top: 70px;">
+<div class="container" style="background-color: pink; padding-top: 50px;">
     <div class="row">
         <div class="col-md-3"></div>
-        <div class="col-md-6" style="align-items: center;border-radius: 8px">
+        <div class="col-md-6" style="align-items: center;border-radius: 10px">
             {% for image in images %}
         
             <div class="panel panel-default">
@@ -22,7 +22,7 @@
                 </div>
                 <div class="panel-body">
                     <a href="{% url 'image_detail' image.id %}"><img src="{{image.image.url}}" alt=""
-                            style="height: 500px; width: 500px ;border-radius: 8px;padding: 5px;"></a>
+                            style="height: 350px; width: 500px ;border-radius: 10px;padding: 5px;"></a>
                     <p class="text text-center" style="font-family: Open Sans ; font-size: large;">{{image.image_caption}}</p>
 
                 </div>
