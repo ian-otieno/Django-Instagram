@@ -1,0 +1,21 @@
+{% extends 'instagram/base.html' %}
+{% block title %} Edit Profile {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8"></div>
+    </div>
+</div>
+<h1>Edit Profile</h1>
+{{user.profile.bio}}
+<div class="form-group">
+    <form action="" method="POST">
+        
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-seconadry">Update Profile</button>
+    </form>
+</div>
+{% endblock %}
