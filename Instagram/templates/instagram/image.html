@@ -15,7 +15,7 @@
             <div>
                 <h3>Comments</h3>
                 {% if not image.comments.all %}
-                        No comments 
+                        No comments Yet
         
                         {% else %}
 
@@ -29,7 +29,7 @@
                         {% endfor %}
         
                         {% endif %}
-                        <a style="margin-left: 20px;" href="{% url 'add_comment' image.id %}">Add comment</a></li>
+                        <a style="margin-left: 20px;" href="{% url 'add_comment' image.id %}">Add commnet</a></li>
                 </ul>
                
               
