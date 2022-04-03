@@ -1,0 +1,63 @@
+{% extends 'instagram/base.html' %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+
+{% block content %}
+<div class="container" style="padding-top: 90px;">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-6">
+            <h1>{{image.image_name}}</h1>
+            <img src="{{image.image.url}}" alt="" style="height: 400px ;width: 400px;">
+            <p>{{image.image_caption}}</p>
+            <hr>
+            <div>
+                <h3>Comments</h3>
+                {% if not image.comments.all %}
+                        No comments 
+        
+                        {% else %}
+
+                <ul>
+                    <li>  
+                        <br>
+                        {% for comment in image.comments.all %}
+                      <p>  {{comment.name}} - {{comment.commented_at}} </p> 
+                        <br>
+                       <p> {{comment.comments}} </p> 
+                        {% endfor %}
+        
+                        {% endif %}
+                        <a style="margin-left: 20px;" href="{% url 'add_comment' image.id %}">Add comment</a></li>
+                </ul>
+               
+              
+
+            </div>
+            <form action="" method="POST">
+                {%csrf_token%}
+                <button type="submit" name="image_id" value="{{ image.id }}" class="btn btn-primary btn-md">Like
+                </button> {{image_likes}}
+            </form>
+            <button class="btn btn-md btn-success"> <a href="{% url 'update_image' image.id %}">Update</a></button>
+            <button class="btn btn-md btn-warning"><a href="{% url 'delete_image' image.id %}">Delete</a></button>
+        </div>
+        <div class="col-md-4" style=" font-family: Open Sans;">
+            <h1>Profile Information</h1>
+            <div class="col-md-6">
+           
+            <h3> Name: {{user.first_name}}</h3>
+            <p> Bio :{{user.profile.bio}}</p>
+            <p> Email :{{user.email}}</p>
+            <img src="{{user.profile.profile_photo.url}}" alt=""><br>
+
+            <button class="btn btn-secondary"> <a href="{% url 'profile' %}"> Edit Profile</a> </button>
+
+        </div>
+
+
+    </div>
+</div>
+
+{% endblock %}
