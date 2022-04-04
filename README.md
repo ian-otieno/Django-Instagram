@@ -5,7 +5,7 @@ This Python/Django Instagram clone website application was created on the 3/04/2
 ## By **[IAN OTIENO](https://github.com/ian-otieno)**
 
 ## Description
- This is a Djnago Instagram Clone application where users can can post pictures, follow other users, commmnet on photos and like photos
+ This is a Django Instagram Clone application where users can can post pictures, follow other users, comment on photos and like photos
  
  ## Live Demo
  Click on the link below to view the site;https://ianistagram.herokuapp.com/
