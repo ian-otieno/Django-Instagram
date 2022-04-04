@@ -123,6 +123,6 @@ def profile(request):
     else:
         user_form=EditProfileForm(instance =request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)
-
+        messages.success(request, f'Your profile was updated successfuly')
         context = {"user_form":user_form, "profile_form":profile_form}
         return render(request, 'django_registration/user_profile.html', context)
